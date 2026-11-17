@@ -33,7 +33,7 @@ groups = {"even_only": even_only.index, "odd_only": odd_only.index, "both_halves
 pd.to_pickle(groups, "probe_groups.pkl")
 
 # ---- sensitive NEAT1 similarity on these groups ----
-FA = "/home/claude/ref/GRCh38.p13.genome.fa"
+FA = "ref/GRCh38.p13.genome.fa"
 fai = pd.read_csv(FA + ".fai", sep="\t", header=None,
                   names=["name", "length", "offset", "linebases", "linewidth"]).set_index("name")
 mm = np.memmap(FA, dtype=np.uint8, mode="r")
@@ -54,7 +54,7 @@ def seq_of(ch, blocks, strand):
     s = UP[np.concatenate([ch[a:b] for a, b in blocks])]
     return (COMP[s][::-1] if strand == "-" else s).tobytes().decode()
 
-genes = pd.read_pickle("/home/claude/work/_genes.pkl").set_index("gene_id")
+genes = pd.read_pickle("work/_genes.pkl").set_index("gene_id")
 nrow = genes[genes.gene_name == "NEAT1"].iloc[0]
 neat = seq_of(chrom("chr11"), [(nrow.start - 1, nrow.end)], "+")
 K = 16
@@ -62,7 +62,7 @@ nset = {neat[i:i+K] for i in range(len(neat) - K + 1) if "N" not in neat[i:i+K]}
 rcn = neat.translate(str.maketrans("ACGT", "TGCA"))[::-1]
 aset = {rcn[i:i+K] for i in range(len(rcn) - K + 1) if "N" not in rcn[i:i+K]}
 
-iv = pd.read_pickle("/home/claude/work/_iv.pkl")
+iv = pd.read_pickle("work/_iv.pkl")
 want = set().union(*[set(v) for v in groups.values()])
 tx = iv[(iv.region == "tx") & iv.gene_id.isin(want)].copy()
 tx["chrom"] = tx.gene_id.map(genes.seq)

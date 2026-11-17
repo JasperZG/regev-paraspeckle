@@ -36,7 +36,7 @@ for lab, acc in EXPS.items():
 
 M = pd.read_pickle("/home/claude/ps/master.pkl")
 res = pd.read_pickle("/home/claude/ps/cqn_response.pkl")
-iv = pd.read_pickle("/home/claude/work/_iv.pkl")
+iv = pd.read_pickle("work/_iv.pkl")
 use = set(res.index)
 G = iv[(iv.region == "gene") & iv.gene_id.isin(use)].rename(columns={"seq": "chrom", "s": "start", "e": "end"})[
     ["chrom", "start", "end", "gene_id"]]

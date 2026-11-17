@@ -10,7 +10,7 @@ Two distinct things this can mean:
 import pandas as pd, numpy as np, time
 from scipy import stats
 
-FA = "/home/claude/ref/GRCh38.p13.genome.fa"
+FA = "ref/GRCh38.p13.genome.fa"
 fai = pd.read_csv(FA + ".fai", sep="\t", header=None,
                   names=["name", "length", "offset", "linebases", "linewidth"]).set_index("name")
 mm = np.memmap(FA, dtype=np.uint8, mode="r")
@@ -46,7 +46,7 @@ def kmers(s, k):
     return {s[i:i + k] for i in range(len(s) - k + 1) if "N" not in s[i:i + k]}
 
 K = 25
-neat = pd.read_pickle("/home/claude/work/_genes.pkl")
+neat = pd.read_pickle("work/_genes.pkl")
 nrow = neat[neat.gene_name == "NEAT1"].iloc[0]
 ch11 = chrom("chr11")
 neat_seq = seq_of(ch11, [(nrow.start - 1, nrow.end)], "+")
@@ -57,8 +57,8 @@ n_anti = kmers(rc, K)
 print("NEAT1 %d-mers: %d" % (K, len(n_sense)))
 
 res = pd.read_pickle("cqn_response.pkl")
-iv = pd.read_pickle("/home/claude/work/_iv.pkl")
-genes = pd.read_pickle("/home/claude/work/_genes.pkl").set_index("gene_id")
+iv = pd.read_pickle("work/_iv.pkl")
+genes = pd.read_pickle("work/_genes.pkl").set_index("gene_id")
 use = list(res.index)
 tx = iv[(iv.region == "tx") & iv.gene_id.isin(use)].copy()
 tx["chrom"] = tx.gene_id.map(genes.seq)

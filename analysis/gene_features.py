@@ -23,9 +23,9 @@ import numpy as np
 import pandas as pd
 from pyfaidx import Fasta
 
-GTF = "/home/claude/ref/gencode.v39.chr_patch_hapl_scaff.annotation.gtf.gz"
-FA = "/home/claude/ref/GRCh38.p13.genome.fa"
-OUT = "/home/claude/work/gene_features_gencode_v39.tsv"
+GTF = "ref/gencode.v39.chr_patch_hapl_scaff.annotation.gtf.gz"
+FA = "ref/GRCh38.p13.genome.fa"
+OUT = "work/gene_features_gencode_v39.tsv"
 
 t0 = time.time()
 cols = ["seq", "src", "feat", "start", "end", "score", "strand", "frame", "attr"]
@@ -122,9 +122,9 @@ ivs.append(pd.DataFrame({"gene_id": genes.gene_id, "seq": genes.seq,
 
 iv = pd.concat(ivs, ignore_index=True)
 print(f"built {len(iv):,} intervals ({time.time()-t0:.0f}s)", flush=True)
-genes.to_pickle("/home/claude/work/_genes.pkl")
-iv.to_pickle("/home/claude/work/_iv.pkl")
-pd.concat([n_tx, n_exons_canon], axis=1).to_pickle("/home/claude/work/_aux.pkl")
+genes.to_pickle("work/_genes.pkl")
+iv.to_pickle("work/_iv.pkl")
+pd.concat([n_tx, n_exons_canon], axis=1).to_pickle("work/_aux.pkl")
 if len(sys.argv) > 1 and sys.argv[1] == "gtf":
     sys.exit(0)
 

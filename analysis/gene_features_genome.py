@@ -3,13 +3,13 @@ import sys, time
 import numpy as np
 import pandas as pd
 
-FA = "/home/claude/ref/GRCh38.p13.genome.fa"
-OUT = "/home/claude/work/gene_features_gencode_v39.tsv"
+FA = "ref/GRCh38.p13.genome.fa"
+OUT = "work/gene_features_gencode_v39.tsv"
 t0 = time.time()
 
-genes = pd.read_pickle("/home/claude/work/_genes.pkl")
-iv = pd.read_pickle("/home/claude/work/_iv.pkl")
-aux = pd.read_pickle("/home/claude/work/_aux.pkl")
+genes = pd.read_pickle("work/_genes.pkl")
+iv = pd.read_pickle("work/_iv.pkl")
+aux = pd.read_pickle("work/_aux.pkl")
 
 fai = pd.read_csv(FA + ".fai", sep="\t", header=None,
                   names=["name", "length", "offset", "linebases", "linewidth"]).set_index("name")

@@ -1,5 +1,5 @@
 import pandas as pd, numpy as np
-feat = pd.read_csv("/home/claude/work/gene_features_gencode_v39.tsv", sep="\t", index_col=0)
+feat = pd.read_csv("work/gene_features_gencode_v39.tsv", sep="\t", index_col=0)
 cnt = pd.read_csv("data/counts.tsv", sep="\t", index_col=0)
 pool = pd.read_csv("pooled_probe_vs_neg.tsv", sep="\t", index_col=0)
 M = feat.copy()

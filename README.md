@@ -8,39 +8,47 @@ Data is from the Fei lab and is **not** in this repo — see [Data](#data).
 
 ## Result in one paragraph
 
-GC content looks like the determinant ($\rho = -0.38$, replicates across probe
-halves, survives partialling on expression). It is **not separable from
-library-level technical variation**: with 2 control libraries against 10 pulldowns,
-a permutation over all $\binom{12}{2} = 66$ choices of "which libraries are the
-control" puts the true split at rank 16/66, $p = 0.106$. Gene length and abundance
-go the same way.
+**First pass** (DE tables only): GC content looks like the determinant
+($\rho = -0.38$) but is not separable from library-level technical variation
+(66-split label permutation, rank 16/66, $p = 0.106$); after CQN three effects
+cleared the permutation (lncRNA class, antisense/divergent, within 2 Mb of NEAT1).
 
-After CQN correction the response gets *more* reproducible ($r = 0.70$ across
-independent library sets, reliability $0.76$). Three effects then clear the same
-permutation at the $1/66$ floor ($p = 0.015$):
+**Second pass** (the 12 BAMs and the probe table), which overturns most of the
+first-pass interpretation:
 
-| effect | size | rank |
-|---|---|---|
-| lncRNA vs rest | +0.122 | 1/66 |
-| antisense/divergent vs rest | +0.137 | 1/66 |
-| within 2 Mb of NEAT1 vs rest | +0.103 | 1/66 |
+- **The capture works on RNA fragments at the probe sites.** NEAT1_1 is not
+  co-captured; `40odd`/`40even` enrichment alternates with probe-region parity along
+  NEAT1 (2-3 fold); fragment length fits 200-400 nt. This is ChIRP/RAP-like
+  hybridisation capture, not a proximity label, so a non-NEAT1 fragment comes down
+  only by annealing to an oligo or by being crosslinked to a NEAT1 fragment.
+- **The "batch" was never a batch: probe JXJ 572 sits in an AluSz6 inside NEAT1.**
+  Its 20-nt target is 3 mismatches from the Alu consensus. The `{40old, 40even, 80}`
+  vs `{20old, 40odd}` split is sets-with-572 vs sets-without. 78 of the 79 batch-2
+  signature genes carry a sense exonic Alu (vs 43% background); reads pile up on the
+  exact target sites (MAP3K13, SIRT7, DHRS4-AS1 on the 572 site, TUB on JXJ 806,
+  PSRC1 on JXJ 818, MCU on JXJ 815); genome-wide, enrichment in the 572 sets is a
+  dose curve in mismatches at the best exonic site (0 mm +0.77, 1 mm +0.22, 2 mm
+  +0.03, none -0.04 log2). The batch structure disappears in Alu-free genes.
+  TMEM9B-AS1 and EMSY-DT, two first-pass "top genes", are 572 captures.
+- **No mature RNA other than NEAT1 is enriched 2-fold in all five probe sets.**
+- **After region-level GC correction the genome-wide intron excess vanishes**
+  (rank 56/66). What survives is **cis and intronic**: corrected intron response
+  for genes within 2 Mb of NEAT1 is +0.27 log2 (rank 1/66; in Alu-free genes,
+  in protein-coding genes, in every set and every library), decaying over
+  ~1-2 Mb, with the mature mRNAs of the same genes barely moving (+0.08). The
+  NEAT1 2 Mb window and its three chr11 neighbours are the top four windows in the
+  genome. This is nascent transcripts of NEAT1's neighbours coming down with NEAT1,
+  which matches Yap, Chung & Makeyev 2022 (HyPro-seq, same HeLa: chr11q clusters,
+  intron retention) at the neighbourhood level though not gene by gene.
+- The lncRNA exon effect shrinks to +0.07 ($p = 0.14$) once Alu genes are removed
+  and GC is corrected; carried as a lead only.
 
-Everything else fails: 3′UTR inverted Alus, all 4,096 6-mers, sequence similarity
-to NEAT1, eCLIP binding by NONO/SFPQ/FUS/TDP-43/HNRNPK/MATR3, nuclear retention,
-and every compartment-scale explanation (spatial autocorrelation of the response
-between neighbouring genes never exceeds $r = +0.011$ at any separation from
-0.1–50 Mb).
-
-**Working hypothesis:** enrichment is set by where the transcript is made and how
-long it stays on chromatin, not by anything in the mature RNA. Paraspeckles
-nucleate on nascent NEAT1 at its own locus; with a short labelling radius what gets
-captured is NEAT1, nascent transcripts of chr11 neighbours, and chromatin-tethered
-lncRNA/divergent transcripts.
-
-Caveat: reliability is 0.76 but the three features give leave-one-chromosome-out
-CV $R^2 = 0.022$, so 97% of the reproducible signal is gene-specific and
-unexplained. The `neg` control is no-probe, which controls for beads but not for
-hybridisation capture — a scrambled probe set is the biggest open gap.
+**Revised hypothesis:** nothing in this dataset is enriched because it is in a
+paraspeckle. The pulldown captures NEAT1_2 fragments at the 80 probe sites;
+everything else is (i) mature RNA annealing directly to one oligo, dominated by
+sense-Alu transcripts on JXJ 572, or (ii) a small, GC-robust intronic enrichment
+of genes transcribed within ~1-2 Mb of the NEAT1 locus. No sequence-encoded
+targeting of mature mRNAs; GC, length and abundance are technical.
 
 Full write-up with figures: [`notes/`](notes/).
 
@@ -49,14 +57,18 @@ Full write-up with figures: [`notes/`](notes/).
 Not redistributed. The scripts expect, relative to the repo root:
 
 ```
-data/NEAT1_input.xlsx        # gene counts, 67,928 x 12
+data/NEAT1_input.xlsx        # gene counts, 67,928 x 12 (whole-gene-span, stranded)
 data/ColData_NEAT1.xlsx      # sample sheet
 data/DE_condition_{20old,40old,40odd,40even,80}.csv
+data/ngs4/*.sort.rmDup.bam   # 12 deduplicated STAR BAMs (second pass)
+data/ngs4/NEAT1 probe positions_2026_08_batch.xlsx   # the 80 probes
 ```
 
 Six conditions × 2 replicates: `neg` (no-probe control), `20old`, `40old`,
-`40odd`, `40even`, `80`. `40even` and `40odd` are disjoint halves of the 80-oligo
-set; `20old`/`40old` are an earlier probe design.
+`40odd`, `40even`, `80`. The 80 probes tile NEAT1_2 (3.8-21.6 kb) in 10 regions
+of 8; `40odd`/`40even` are the odd/even-numbered regions, `20old` = JXJ 401-420,
+`40old` = `20old` + JXJ 535-576, and JXJ 783-822 are the new design present only in
+`40odd`/`40even`/`80`. Cells are HeLa (HPV18 E6/E7 reads).
 
 Reference files are downloaded by the scripts: GENCODE **v39**
 `chr_patch_hapl_scaff` and **GRCh38.p13**. That release is the only one whose
@@ -112,6 +124,20 @@ pip install -r requirements.txt
 | `analysis/cis_gcmatch.py` | GC-matched control (chr11q13 is GC 0.557 vs 0.436) |
 | `analysis/abund_perm.py` | permutation on abundance, lncRNA, cis |
 
+**Second pass (BAMs and probes)**
+
+| script | what it does |
+|---|---|
+| `analysis/probe_scan.py` | parses the probe sheet, maps the 80 target sites onto NEAT1 (`work/probes80.tsv`) |
+| `analysis/probe_scan_genome.py` | genome-wide scan for all 80 target sites at ≤3 mismatches, per-gene best sense/antisense hit |
+| `analysis/nascent_cqn.py` | exon vs intron counts with region-level GC/length correction, 66-split permutation, cis decay, window null, HyPro concordance |
+| `analysis/fig7_nascent.py` | Fig 7 |
+| `analysis/run_genome_chain.sh` | unzip genome → features → probe scan → master → CQN |
+
+Exon/intron/junction counting (featureCounts `-s 1` on SAFs built from GENCODE v39),
+NEAT1 coverage profiles, the membership-vector fits, the Alu counts and the Hi-C proxy
+were run inline; their outputs live in `work/` (not committed, see the notes).
+
 **Integration and output**
 
 | script | what it does |
@@ -130,14 +156,20 @@ pip install -r requirements.txt
 | ![fig1](figures/fig1_gc_is_technical.png) | **Fig 1.** GC looks like the answer and then does not survive label permutation. |
 | ![fig2](figures/fig2_cis_decay.png) | **Fig 2.** The response decays with genomic distance from the NEAT1 locus. |
 | ![fig3](figures/fig3_what_survives.png) | **Fig 3.** Only three effects clear the sample-label permutation. |
+| ![fig4](figures/fig4_neat1_profile.png) | **Fig 4.** The pulldown captures NEAT1_2 fragments at the probe sites. |
+| ![fig5](figures/fig5_probe_signatures.png) | **Fig 5.** 86 genes whose five-set profile matches one probe-membership vector. |
+| ![fig6](figures/fig6_offtarget_sites.png) | **Fig 6.** The batch-2 signature is cross-hybridisation of sense Alus to probe JXJ 572. |
+| ![fig7](figures/fig7_nascent_cqn.png) | **Fig 7.** After GC correction the only nascent signal is cis to the NEAT1 locus. |
 
 ## Open
 
-1. Scrambled / non-targeting probe control. Largest single gap.
-2. More `neg` replicates — $n = 2$ is why the GC question is unanswerable.
-3. Intron vs exon counts (the Wu et al. Group A/B split). Best direct test of the
-   hypothesis above. Needs featureCounts on an intron SAF, or split BAMs.
-4. Probe coordinates on NEAT1_2 — do `40even`/`40odd` tile core vs shell?
-5. Hi-C contact frequency with chr11:65.43 Mb in place of linear distance.
-6. Reporter: swap the 3′UTR between a top gene and a flat control at one fixed
-   locus. If localisation is positional, the swap should do nothing.
+1. Drop JXJ 572 (and JXJ 403/406) from the probe set; screen any future design
+   against RepeatMasker. Analyse `20old`/`40odd` as the clean sets meanwhile.
+2. Scrambled / non-targeting probe set with the same handle. Beads-only does not
+   control for annealing, which is the largest term.
+3. NEAT1 knockdown or NONO/SFPQ knockdown: the cis intronic signal should survive
+   if it is nascent-transcript proximity to the NEAT1 gene, and vanish if it needs
+   the paraspeckle body.
+4. 4C or HeLa Hi-C from the NEAT1 promoter; the GM12878 proxy adds nothing beyond
+   linear distance.
+5. More `neg` replicates (4-6) and a nuclear-extract input lane.

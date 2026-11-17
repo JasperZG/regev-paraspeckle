@@ -17,7 +17,7 @@ y1 = res[["y_20old", "y_40odd"]].mean(axis=1)
 y2 = res[["y_40old", "y_40even", "y_80"]].mean(axis=1)
 print("batch1 vs batch2 response r = %.3f" % np.corrcoef(y1, y2)[0, 1])
 
-FA = "/home/claude/ref/GRCh38.p13.genome.fa"
+FA = "ref/GRCh38.p13.genome.fa"
 fai = pd.read_csv(FA + ".fai", sep="\t", header=None,
                   names=["name", "length", "offset", "linebases", "linewidth"]).set_index("name")
 mm = np.memmap(FA, dtype=np.uint8, mode="r")
@@ -38,8 +38,8 @@ def seq_of(ch, blocks, strand):
     s = UP[np.concatenate([ch[a:b] for a, b in blocks])]
     return (COMP[s][::-1] if strand == "-" else s).tobytes().decode()
 
-genes = pd.read_pickle("/home/claude/work/_genes.pkl").set_index("gene_id")
-iv = pd.read_pickle("/home/claude/work/_iv.pkl")
+genes = pd.read_pickle("work/_genes.pkl").set_index("gene_id")
+iv = pd.read_pickle("work/_iv.pkl")
 use = list(res.index)
 seqs = {}
 for region in ["utr3", "tx"]:

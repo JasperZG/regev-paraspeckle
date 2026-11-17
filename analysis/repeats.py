@@ -4,8 +4,8 @@ cols = ["bin","sw","div","dele","ins","chrom","start","end","left","strand","nam
 rm = pd.read_csv("ext/rmsk.txt.gz", sep="\t", header=None, names=cols, usecols=["chrom","start","end","strand","name","cls","fam","div"])
 rm = rm[rm.chrom.str.match(r"^chr[0-9XY]+$")]
 print("rmsk", len(rm), time.time()-t0, flush=True)
-iv = pd.read_pickle("/home/claude/work/_iv.pkl")
-genes = pd.read_pickle("/home/claude/work/_genes.pkl").set_index("gene_id")
+iv = pd.read_pickle("work/_iv.pkl")
+genes = pd.read_pickle("work/_genes.pkl").set_index("gene_id")
 M = pd.read_pickle("master.pkl")
 use = M.index[M.on_primary_chrom & (M.seq!="chrM") & (M.baseMean.fillna(0) > 1)]
 iv = iv[iv.gene_id.isin(use) & iv.region.isin(["exon","utr3","gene","cds","utr5"])].rename(columns={"seq":"chrom","s":"start","e":"end"})

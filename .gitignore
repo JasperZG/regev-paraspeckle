@@ -19,3 +19,11 @@ ext/
 *.log
 __pycache__/
 node_modules/
+
+# Second pass: environment, intermediates, DESeq2 outputs
+tools/
+work/
+/deseq_*_vs_neg.tsv
+/pooled_probe_vs_neg.tsv
+/normed_counts.tsv
+notes/package-lock.json

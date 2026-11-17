@@ -18,9 +18,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
-DATA = sys.argv[1] if len(sys.argv) > 1 else "/home/claude/work/data"
-OUT = sys.argv[2] if len(sys.argv) > 2 else "/home/claude/work/out"
-FEAT = "/home/claude/work/gene_features_gencode_v39.tsv"
+DATA = sys.argv[1] if len(sys.argv) > 1 else "work/data"
+OUT = sys.argv[2] if len(sys.argv) > 2 else "work/out"
+FEAT = "work/gene_features_gencode_v39.tsv"
 os.makedirs(OUT, exist_ok=True)
 BM = 10
 

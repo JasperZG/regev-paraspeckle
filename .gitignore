@@ -1,0 +1,21 @@
+# Lab data — not redistributed
+data/
+*.csv
+*.xlsx
+*.bam
+*.bam.bai
+*.fastq.gz
+
+# Reference genome / annotation (downloaded by the scripts)
+ref/
+ext/
+*.fa
+*.fa.fai
+*.gtf.gz
+*.txt.gz
+
+# Intermediates
+*.pkl
+*.log
+__pycache__/
+node_modules/

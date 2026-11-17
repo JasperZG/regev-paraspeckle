@@ -1,0 +1,22 @@
+import pandas as pd, numpy as np
+feat = pd.read_csv("/home/claude/work/gene_features_gencode_v39.tsv", sep="\t", index_col=0)
+cnt = pd.read_csv("data/counts.tsv", sep="\t", index_col=0)
+pool = pd.read_csv("pooled_probe_vs_neg.tsv", sep="\t", index_col=0)
+M = feat.copy()
+M["baseMean"] = pool.baseMean.reindex(M.index)
+M["lfc"] = pool.lfc_apeglm.reindex(M.index)          # main response: pooled probe vs neg, apeglm-shrunk
+M["lfc_mle"] = pool.log2FoldChange.reindex(M.index)
+M["lfcSE"] = pool.lfcSE.reindex(M.index)
+M["padj"] = pool.padj.reindex(M.index)
+for c in ["20old","40old","40odd","40even","80"]:
+    d = pd.read_csv(f"deseq_{c}_vs_neg.tsv", sep="\t", index_col=0)
+    M[f"lfc_{c}"] = d.lfc_apeglm.reindex(M.index)
+    M[f"bm_{c}"] = d.baseMean.reindex(M.index)
+# abundance in the control only (CPM)
+negcpm = (cnt[["NEAT1_neg_Rep1","NEAT1_neg_Rep2"]] / cnt[["NEAT1_neg_Rep1","NEAT1_neg_Rep2"]].sum() * 1e6).mean(axis=1)
+M["log10_cpm_neg"] = np.log10(negcpm + 0.01)
+M["log10_baseMean"] = np.log10(M.baseMean)
+M["keep"] = (M.baseMean > 10) & M.on_primary_chrom & (M.seq != "chrM") & M.lfc.notna() & (M.gene_name != "NEAT1")
+M.to_pickle("master.pkl")
+print(M.keep.sum(), "genes in analysis set")
+print(M.loc[M.keep, "gene_type"].value_counts().head(10))

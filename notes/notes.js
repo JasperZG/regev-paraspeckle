@@ -288,6 +288,15 @@ P(b(0, "4C or HeLa Hi-C from the NEAT1 promoter, to see whether the 1-2 Mb intro
 P(b(0, "More neg replicates (4-6), and a nuclear-extract input lane. Two negs is still why GC remains a one-sided argument everywhere above."));
 P(b(0, "If anyone wants to look for genuine paraspeckle residents in this design: the test is \"enriched in all five sets, exon-level, no probe site\", and nothing passes it at 2-fold. A denser probe set with no repeat-overlapping oligos and a formaldehyde-only (no fragmentation) variant would be the way to recover co-captured residents, since whole-body capture needs intact crosslinked complexes."));
 
+// ============================ 16b. the October probe set ============================
+P(p([run("17 Nov: Oded says 572 is already known and a new probe set has been run", { bold: true })]));
+P(b(0, "The shared folder has a second sheet, NEAT1 probe positions_2026_10_batch.xlsx: 36 new oligos, JXJ 1056-1091, same 35-nt handle, none of the old 80. The sequencing for it is not in the folder yet. Ran the 36 through the same screen that caught JXJ 572 so there is something to say on Sunday."));
+P(b(1, "All 36 map once, sense, onto NEAT1, between 20,293 and 22,746 nt. So this set tiles only the last 2.5 kb of NEAT1_2 (the old 80 covered 3.8-21.6 kb). Still NEAT1_2-specific, still nothing in the NEAT1_1 region."));
+P(b(1, "No repeat trouble. Closest match of any target to the Alu consensus is 7 mismatches (JXJ 1075); JXJ 572 was 3. Three probes (1072-1074) sit in an old HAL1ME L1 fragment, which is too diverged to matter."));
+P(b(1, "Genome-wide, sense-strand sites within 2 mismatches: 310 hits in total for all 36, against 77,949 for the old 80. Per probe, 1-16 genes carry a sense site (JXJ 1084 is the top at 16, JXJ 1083 11, JXJ 1085 8); counting only exonic sites it is 1-6 genes, and the 1 is NEAT1 itself. For comparison the old 80 had a median of 3 and JXJ 572 had 10,302. Nothing here will produce a signature class."));
+P(b(1, "Two things to expect from the new data. Because capture is fragment-level, a 2.5-kb window at the 3' end captures a smaller fraction of each NEAT1 molecule than the 80 did, so NEAT1 enrichment per molecule will be lower and the exon-level background cleaner. And the batch split should be gone: if 20old/40odd-like structure appears again between replicates it is handling for real this time."));
+P(b(1, "Output: work/probes_oct36_screen.tsv, script analysis/probe_screen_oct.py."));
+
 // ============================ 17. files (second pass) ============================
 P(p([run("Files (second pass)", { bold: true })]));
 P(b(0, "work/probes80.tsv - the 80 probes with region, parity, series, target 20-mer, position on NEAT1, set membership; work/probes80_repeats.tsv - the 19 probes that overlap a RepeatMasker element"));

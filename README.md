@@ -1,8 +1,8 @@
 # Paraspeckle transcriptome — what determines NEAT1 enrichment?
 
-Analysis for the Regev lab (NYU) paraspeckle project. Hybridisation-capture
-pulldown against NEAT1, sequenced against a no-probe control, asking what about a
-gene sets its `log2FoldChange`.
+Analysis for the Regev lab (NYU) paraspeckle project. rtRT-seq against NEAT1
+(probe-tethered MCP-reverse-transcriptase labelling), sequenced against no-probe
+controls, asking what about a gene sets its `log2FoldChange`.
 
 Data is from the Fei lab and is **not** in this repo — see [Data](#data).
 
@@ -51,6 +51,36 @@ of genes transcribed within ~1-2 Mb of the NEAT1 locus. No sequence-encoded
 targeting of mature mRNAs; GC, length and abundance are technical.
 
 Full write-up with figures: [`notes/`](notes/).
+
+**Third pass** (19 Nov, the full rtRT-seq folder including NGS6, which has no
+JXJ 572 and six negative samples) — a prospective test of the second pass:
+
+- **The method is rtRT-seq, not bead capture.** An MCP-tethered RT at each probe
+  labels RNA within a few hundred nt (~64x within 100 nt, 27x at 200-400 nt, 17x at
+  400-800 nt, 6-10x floor; RT starts 7.6x higher just upstream of a bound probe at
+  19/20 sites). The second-pass "200-400 nt fragment" fit was measuring that reach.
+  The conclusion that labelling is local along the RNA is unchanged and stronger.
+- **The lab identified JXJ 572 independently** (29 Oct, from the gene list to the
+  probe; this repo went from probe-set membership to the probe) and excluded it from
+  NGS6. Their `>=16 bp` continuous-pairing criterion understates the effect for an
+  RT-tethering assay; the mismatch dose curve and their own pile-ups cover the rest.
+- **Every second-pass prediction holds in NGS6.** The 86 signature genes go flat
+  (median +0.08-0.26 by set); P3H4 -0.25 to -0.56; the sense-Alu dose curve is gone (rho +0.02);
+  **TUB is up only in MED and TOTAL**, the two sets carrying its JXJ 806 Region 6
+  probe (+2.78, +2.35 vs +0.21 to +0.42 in the three 3' sets).
+- **GC is settled as technical.** With 12 negative libraries, the GC association of
+  the corrected response is -0.004, null sd 0.007, $p = 0.73$ (2,000 splits).
+- **The cis intronic halo does not replicate.** NGS6 near-NEAT1 is +0.053 but the
+  shape inverts (-0.048 within 0.5 Mb, +0.07 at 10 Mb), the NEAT1 2 Mb window ranks
+  44/240, and the 15 strongest NGS4 cis genes are at -0.087. Caveat: no NGS6 BAMs,
+  so no intron/exon split, and the lab's QC calls NGS6 a failed co-capture batch.
+  Moved to **unconfirmed**.
+- **Across both batches, in all ten positive libraries: only NEAT1 clears 2-fold.**
+  CMTM6 (1.7x), RUVBL1 and HIC2 (1.4x) are next, none with a probe site within 3
+  mismatches. CMTM6 and RUVBL1 are the only FISH-worthy leads.
+- **The lab's detection threshold explains the empty list**: reaching 2-fold needs
+  ~30-45% of an RNA's molecules in paraspeckles, so a 3-4x concentrated RNA is
+  invisible at this background. A design problem, not an analysis problem.
 
 ## Data
 

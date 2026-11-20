@@ -307,6 +307,72 @@ P(b(0, "analysis/nascent_cqn.py - region-level GC/length correction of exon and 
 P(b(0, "work/hic_chr11_gene_feature.pkl - GM12878 Hi-C O/E contact with the NEAT1 bin per chr11 gene; work/uniform_exon_enriched.tsv - the genes above 1.7-fold in all five sets"));
 P(b(0, "ext/yap2022/neat1_hypro_targets.tsv - the 267 HyPro-seq targets from Yap et al. 2022 Table S2"));
 
+// ============================ 18. the full Drive folder ============================
+P(p([run("19 Nov: the whole rtRT-seq folder arrived, including NGS6 without JXJ 572", { bold: true })]));
+P(b(0, "What came: NGS1 through NGS6, the MALAT1 experiments (NGS2, NGS3), the April NGS3 NEAT1/NEAT1_SA sets, FISH images, the plasmid and probe-design files, and Jingxuan's own analysis folders. Three write-ups in there matter: NEAT1_batch_findings.md, NEAT1_probe_specificity_check.md and NEAT1_RT_reach_NGS4.md."));
+P(b(0, [run("They found JXJ 572 independently, and before I did. ", { bold: true }), run("Their specificity check (29 Oct) identifies the same probe, notes its target AAATTAGTCAGGCATGGTGG is a common Alu variant, finds a near-match in 72% of the enriched genes against 17% of length-matched controls, and shows reads piling up on the match site in P3H4, MTRFR, BRI3BP, VPS51 and GGT4P at 7-34x the sets without the probe. They then left it out of the NGS6 design on purpose. So the two analyses agree completely, by different routes: they went from the gene list to the probe, I went from the probe-set membership vectors to the probe.")]));
+P(b(1, "One place they stopped short and I can close: they applied a >=16 continuous base-pair wash criterion and concluded direct hybridisation explains at most 5 of the 60 genes, leaving the other 55 unexplained. But the criterion is for a free oligo in solution. The genome-wide scan says the rest carry the same Alu site at 1-2 mismatches, the enrichment is a smooth dose curve in mismatches at the best exonic site (0 mm +0.77, 1 mm +0.22, 2 mm +0.03, none -0.04), and the whole batch axis disappears in Alu-free genes. A 19/20 duplex with one internal mismatch, held by a bead-tethered oligo at high local concentration, does not need to clear the same bar as a free 16-mer."));
+P(b(0, [run("Correction to what I wrote about the method. ", { bold: true }), run("I had called this hybridisation capture of fragmented RNA. It is rtRT-seq: an MCP-tethered reverse transcriptase sits at each probe and labels RNA within its reach. Their RT_reach write-up measures the reach directly: enrichment is about 64x within 100 nt of a probe, 27x at 200-400 nt, 17x at 400-800 nt and settles at a 6-10x floor; RT starts are about 7.6x higher 1-10 nt upstream of a bound probe at 19 of 20 sites; the probe acts as a roadblock. MALAT1 in NGS2 gives the same picture. My fragment-length fit of 200-400 nt from the odd/even parity oscillation was measuring that reach, not a fragmentation size. The conclusion is unchanged and now better supported: the labelling is local along the RNA, so this cannot be whole-paraspeckle capture.")]));
+
+// ============================ 19. NGS6 as a prospective test ============================
+P(p([run("NGS6 is the experiment that tests all of it", { bold: true })]));
+P(b(0, "NGS6 has no JXJ 572, a new 3' probe design (JXJ 1056-1091, which I screened on 17 Nov and found clean), five positives (3' ODD, 3' EVEN, 3' total, MED, TOTAL) and six negative samples, 12 negative libraries in all. Every prediction I wrote down on 16-17 Nov is testable against it, and I ran them before reading their conclusions on NGS6."));
+P(new Paragraph({ spacing: { before: 60, after: 120 } }));
+P(tbl([
+  [{ t: "prediction (16-17 Nov)", b: true }, { t: "result in NGS6", b: true }, { t: "verdict", b: true }],
+  [{ t: "the 86 probe-signature genes go flat" }, { t: "median +0.08 to +0.26 log2 by set, the same as the global shift" }, { t: "confirmed" }],
+  [{ t: "P3H4, MTRFR, SIRT7, DHRS4-AS1, MAP3K13, TMEM9B-AS1 flat" }, { t: "P3H4 is the most depleted, -0.25 to -0.56" }, { t: "confirmed" }],
+  [{ t: "the sense-Alu dose curve disappears" }, { t: "0 Alu +0.12, 4+ Alu +0.18, rho +0.02" }, { t: "confirmed" }],
+  [{ t: "GC fails once there are more negatives" }, { t: "rho -0.004, p = 0.73 against 2,000 splits" }, { t: "confirmed" }],
+  [{ t: "no batch split beyond replicate noise" }, { t: "no probe-set structure; the negatives are the problem" }, { t: "confirmed" }],
+  [{ t: "the lncRNA class effect" }, { t: "-0.106, the wrong direction" }, { t: "does not replicate" }],
+  [{ t: "the cis intronic halo within 1-2 Mb" }, { t: "see below" }, { t: "not confirmed" }],
+], [4300, 3600, 1700]));
+P(new Paragraph({ spacing: { after: 100 } }));
+P(b(0, [run("TUB is the clean prospective confirmation. ", { bold: true }), run("In NGS4, TUB was enriched in exactly 40even and 80, and I traced it to a 2-mismatch JXJ 806 site at chr11:8,104,844. JXJ 806 is a Region 6 probe. NGS6 has no JXJ 572 and no Region 6 probes in its three 3'-end sets, but MED covers Regions 2-6 and TOTAL is a whole-NEAT1 design. Prediction: TUB up in MED and TOTAL only. Result: 3' ODD +0.42, 3' EVEN +0.21, 3' total +0.28, MED +2.78, TOTAL +2.35. The probe explanation predicted the sign and the size of an effect in a batch I had not seen.")]));
+P(b(0, [run("GC is settled. ", { bold: true }), run("The first pass could not separate GC from library drift with 2 negatives, and I left it as unanswerable. NGS6 has 12 negative libraries. After the same spline correction, the GC association of the response is -0.004 with a null spread of 0.007, p = 0.73 against 2,000 random 10-vs-12 splits. The GC axis was technical, as suspected, and the extra negatives were the thing needed to prove it.")]));
+
+// ============================ 20. the cis signal does not replicate ============================
+P(p([run("The one biological claim I had does not survive NGS6", { bold: true })]));
+P(b(0, "The second-pass hypothesis kept exactly one positive result: intronic enrichment of genes transcribed within 1-2 Mb of the NEAT1 locus, +0.27 log2, rank 1/66, present in every NGS4 set and library. NGS6 does not support it."));
+P(b(1, "The near-NEAT1 contrast in NGS6 is +0.053 and formally beats a random-split null (p < 0.0005), but the shape is wrong. Within 0.5 Mb it is -0.048, within 1 Mb -0.026, and it rises to +0.07 out to 10 Mb. In NGS4 it was +0.50 within 0.5 Mb and gone by 3 Mb. A mechanism anchored at the NEAT1 locus does not produce a signal that is absent at the locus and present 10 Mb away."));
+P(b(1, "The spatial null agrees. Sliding a 2 Mb window across the genome, the NEAT1 window ranks 44th of 240 (18%), behind the chr6 histone cluster at 25-27 Mb. In NGS4 the NEAT1 window and its three chr11 neighbours were the top four of 74."));
+P(b(1, "The genes do not match. The 15 strongest NGS4 cis-intron genes have a median NGS6 response of -0.087 against a genome median of +0.003. SCYL1 is -1.16, FOSL1 -0.71, MAP4K2 -0.77. The top near-NEAT1 genes in NGS6 are LRFN4, CFL1, CTSF and PRDX5, which sit at -0.10 to +0.23 in NGS4."));
+P(b(1, "Gene-level agreement between the two batches is r = +0.078 genome-wide and +0.118 on chr11. Whatever is reproducible between NGS4 and NGS6 is close to nothing once NEAT1 and the JXJ 572 genes are out."));
+P(b(0, [run("The fair caveat. ", { bold: true }), run("Only the gene-span count table came with NGS6, not its BAMs, so I cannot do the intron/exon split there, and that is where the NGS4 signal lived (+0.27 intronic against +0.08 exonic). Gene-span counts dilute it about threefold. On top of that, Jingxuan's own QC calls NGS6 a failed batch for co-capture: its positives pull NEAT1 down 7-16x but bring nothing else along, and its negatives are depleted for 160-400 genes, which manufactures false calls in both directions. So NGS6 is a weak test, not a refutation. But it is the only independent test available, and it does not reproduce the effect. I am moving the cis claim from \"the one thing that survives\" to \"unconfirmed, needs the NGS6 BAMs\".")]));
+
+// ============================ 21. what replicates across batches ============================
+P(p([run("What is actually enriched, across both batches", { bold: true })]));
+P(b(0, "The strictest test the data can support: a gene must be up in all five NGS4 probe sets and in all five NGS6 sets, against the pooled negatives and against each NGS6 set's own matched negative. Ten positive libraries, two independent preps, two different probe designs."));
+P(new Paragraph({ spacing: { before: 60, after: 120 } }));
+P(tbl([
+  [{ t: "threshold (log2, every set in both batches)", b: true }, { t: "genes", b: true }],
+  [{ t: "> 1.0 (2-fold)" }, { t: "1: NEAT1" }],
+  [{ t: "> 0.75" }, { t: "2: NEAT1, CMTM6" }],
+  [{ t: "> 0.5 (1.4-fold)" }, { t: "4: NEAT1, CMTM6, RUVBL1, HIC2" }],
+  [{ t: "> 0.25" }, { t: "60" }],
+], [5200, 4400]));
+P(new Paragraph({ spacing: { after: 100 } }));
+P(b(0, "NEAT1 is +3.4 to +3.7 in NGS4 and +4.2 to +5.4 in NGS6. Nothing else reaches 2-fold anywhere in either batch across all sets."));
+P(b(0, [run("CMTM6 and RUVBL1 are the only leads worth a FISH probe. ", { bold: true }), run("Both are up in all ten positive libraries of NGS6 and all five NGS4 sets, and both are exonic effects in NGS4 (CMTM6 exon +0.80 to +1.03, intron -0.11 to +1.05). CMTM6 runs 116-205 CPM in the NGS6 positives against 11-46 in every negative; RUVBL1 219-386 against 38-58. Neither has a probe site within 3 mismatches, and in NGS6 there is no JXJ 572 to appeal to.")]));
+P(b(1, "Against them: the effect size does not match between batches, about 1.8x in NGS4 against 3-5x in NGS6, and part of the NGS6 gap comes from the N-negatives being depleted for exactly these genes, which is the known NGS6 failure mode. HIC2 is only 1.4x against the good NGS6 negative. So these are candidates to test by imaging, not results."));
+P(b(0, [run("And the lab's own number says why the list is this short. ", { bold: true }), run("Their RT_reach section 5 works out the detection threshold from the data: an RNA away from a probe is labelled at most 15-25% as well as the probe site, and about 91% of each library is background, so reaching 2x needs roughly 30-45% of that RNA's molecules to sit in paraspeckles. Paraspeckles occupy well under 1% of the nucleus, so even an RNA concentrated 3-4x in them, as P3H4 and MTRFR are by FISH, should be invisible. Their calculation and my empty cross-batch list are the same statement from two directions.")]));
+
+// ============================ 22. where this leaves the hypothesis ============================
+P(p([run("Where this leaves the hypothesis", { bold: true })]));
+P(b(0, [run("Revised again: the assay measures proximity to the probe along the RNA, and at the current background it cannot see paraspeckle residents at all. Of the log2FoldChange column, the part that is explainable is probe cross-hybridisation, dominated by JXJ 572; the rest is library and background variation. The cis-to-NEAT1 intronic signal is the one candidate for real biology and it is unconfirmed. No property of a gene's mature RNA predicts recovery in either batch.", { bold: true })]));
+P(b(1, "Three things are now settled rather than argued: the GC/length axis is technical (12 negatives, p = 0.73); the batch axis was one Alu-overlapping oligo (dose curve, pile-ups, and its removal); and no mature RNA other than NEAT1 is reproducibly captured (1 gene above 2-fold across 10 positive libraries and two probe designs)."));
+P(b(1, "Two are open: whether the cis intronic halo is real (needs the NGS6 BAMs, or better, a working batch with intron-level counts), and whether CMTM6 and RUVBL1 are genuine (needs FISH)."));
+P(b(1, "One is now quantitative: the sensitivity gap. Their 30-45% figure says the experiment as built cannot detect a 3-4x concentrated RNA. That is a design problem, not an analysis problem, and it explains every negative result in these notes."));
+
+// ============================ 23. next ============================
+P(p([run("What I want next", { bold: true })]));
+P(b(0, "The NGS6 BAMs, so the intron/exon split can be done there. That is the single analysis that would settle the cis question with data already in hand."));
+P(b(0, "Cut the background, since that is what sets the detection threshold. Their own estimate is that 91% of each library is background and an off-probe RNA is labelled at 15-25% of the probe site. Halving the background buys more than any analysis change."));
+P(b(0, "FISH on CMTM6 and RUVBL1, with probes that do not include any capture oligo, and ideally alongside P3H4 and MTRFR as the known-artifact controls. Their earlier P3H4/MTRFR imaging needs checking for whether the imaging probe set included JXJ 572 or a set containing it."));
+P(b(0, "A scrambled-probe control with the same handle, still the cleanest way to subtract annealing. It is cheaper than another full batch and it would have caught JXJ 572 on day one."));
+P(b(0, "Keep the 12-negative design. It is what made the GC question answerable after a year, and it should be standard from here."));
+
 const doc = new Document({
   numbering,
   styles: { default: { document: { run: { font: FONT, size: SZ } } } },

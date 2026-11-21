@@ -82,6 +82,37 @@ JXJ 572 and six negative samples) — a prospective test of the second pass:
   ~30-45% of an RNA's molecules in paraspeckles, so a 3-4x concentrated RNA is
   invisible at this background. A design problem, not an analysis problem.
 
+**Final pass** (21 Nov, all six batches and all three anchors):
+
+- **Three anchors, not one.** NEAT1 (HeLa), MALAT1 (HFF, NGS2 + NGS3) and SON
+  (antibody, HFF). The MALAT1/SON libraries are **HFF, not HeLa** (chrY 617-946
+  CPM, COL1A2 1677-2801, vs 8 and 0 in the NEAT1 libraries), so they control the
+  method, not the biology. `NEAT1_SA` is **sodium arsenite**, not a probe control,
+  and **no scrambled/antisense probe exists anywhere in the project**.
+- **The odd/even probe split is the decisive internal control** — same RNA, same
+  cells, same run. ODD calls 4 genes, EVEN calls 495 (NGS2) and 243 (NGS4).
+  JXJ 572 is in Region 8 (even) and carries 155/156 of the panel's ≤1-mismatch
+  off-target sites. Only NEAT1 and CMTM6 are called by both halves.
+- **The method *can* see co-residents.** Three MALAT1 pulldowns recover the
+  spliceosomal snRNAs (median +1.34/+1.00/+0.96 log2, p ~1e-5; U1, U5 and 7SK,
+  three unrelated families, no probe sharing even a 12-mer with them; survives
+  length matching). The NEAT1 anchor: +0.06 and +0.04, p = 0.5 and 0.76.
+- **The cis halo is a property of the assay.** Both MALAT1 anchors reproduce it
+  (intron +0.34/+0.60 within 0.5 Mb vs NEAT1's +0.50), in a different cell line,
+  with the same decay and 3:1 intron bias. Neither anchor captures the other RNA
+  (NEAT1 -0.11 to -0.39 in MALAT1 pulldowns; MALAT1 -0.18 in NEAT1's).
+- **A-to-I editing does not survive the Alu confound** (editing rho 0.18 vs Alu
+  density 0.275, mutually 0.41; 93% of sites are in Alus). Abundance predicts
+  nothing (GRO-seq -0.05, nuclear 0.00, polyA -0.04).
+- **Final model: four components** — the anchor; probe cross-hybridisation
+  (one oligo); a locus-proximity halo on nascent RNA; and genuine co-residents
+  where the body concentrates them (snRNAs for speckles, nothing for
+  paraspeckles). Gene properties explain **1.5-2.0%** of the NGS6 column out of
+  sample vs 10-24% in NGS4.
+- **Unresolved and flagged**: ~half the EVEN calls survive 500-nt probe masking;
+  CMTM6 and PSRC1 have no artefactual explanation. The Aug-2025 "paraspeckle
+  gene" lists are from NGS1, the batch excluded elsewhere, and should be retired.
+
 ## Data
 
 Not redistributed. The scripts expect, relative to the repo root:

@@ -1,29 +1,30 @@
-# Lab data — not redistributed
-data/
-*.csv
-*.xlsx
-*.bam
-*.bam.bai
-*.fastq.gz
-
-# Reference genome / annotation (downloaded by the scripts)
-ref/
-ext/
-*.fa
-*.fa.fai
-*.gtf.gz
-*.txt.gz
 
 # Intermediates
-*.pkl
-*.log
-__pycache__/
-node_modules/
-
+# Lab data — not redistributed
+# Reference genome / annotation (downloaded by the scripts)
 # Second pass: environment, intermediates, DESeq2 outputs
+*.bam
+*.bam.bai
+*.csv
+*.fa
+*.fa.fai
+*.fastq.gz
+*.gtf.gz
+*.log
+*.pkl
+*.txt.gz
+*.xlsx
+/deseq_*_vs_neg.tsv
+/normed_counts.tsv
+/pooled_probe_vs_neg.tsv
+__pycache__/
+data/
+data/*.zip
+data/rtRT/
+data/rtRT_bam/
+ext/
+node_modules/
+notes/package-lock.json
+ref/
 tools/
 work/
-/deseq_*_vs_neg.tsv
-/pooled_probe_vs_neg.tsv
-/normed_counts.tsv
-notes/package-lock.json

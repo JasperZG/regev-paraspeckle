@@ -373,6 +373,105 @@ P(b(0, "FISH on CMTM6 and RUVBL1, with probes that do not include any capture ol
 P(b(0, "A scrambled-probe control with the same handle, still the cleanest way to subtract annealing. It is cheaper than another full batch and it would have caught JXJ 572 on day one."));
 P(b(0, "Keep the 12-negative design. It is what made the GC question answerable after a year, and it should be standard from here."));
 
+// ============================ 24. the whole dataset ============================
+P(p([run("21 Nov: all six batches, and the control that was in the folder the whole time", { bold: true })]));
+P(b(0, "Going through every count table in the folder rather than just NGS4 and NGS6, the project turns out to contain three different anchors, not one. That changes what can be concluded, because two of them work as controls on the method."));
+P(new Paragraph({ spacing: { before: 60, after: 120 } }));
+P(tbl([
+  [{ t: "batch", b: true }, { t: "anchor", b: true }, { t: "cells", b: true }, { t: "libraries", b: true }, { t: "what it is good for", b: true }],
+  [{ t: "NGS1" }, { t: "NEAT1, 20 probes" }, { t: "HeLa" }, { t: "8 pos, 16 neg" }, { t: "RT time and gel cut test; the two negative types are interchangeable (0 genes differ)" }],
+  [{ t: "NGS2" }, { t: "MALAT1 probes; SON antibody" }, { t: "HFF" }, { t: "4 + 4" }, { t: "the method control" }],
+  [{ t: "NGS3 (April)" }, { t: "NEAT1 normal, NEAT1 arsenite, MALAT1" }, { t: "HeLa / HeLa / HFF" }, { t: "22" }, { t: "stress arm, and a second MALAT1 pulldown" }],
+  [{ t: "NGS4" }, { t: "NEAT1, five probe sets" }, { t: "HeLa" }, { t: "10 pos, 2 neg" }, { t: "the main dataset, with BAMs" }],
+  [{ t: "NGS6" }, { t: "NEAT1, new 3' design, no JXJ 572" }, { t: "HeLa" }, { t: "10 pos, 12 neg" }, { t: "the clean prospective test" }],
+], [1250, 2400, 900, 1350, 3700]));
+P(new Paragraph({ spacing: { after: 100 } }));
+P(b(0, [run("Two things I had wrong, both now fixed. ", { bold: true }), run("First, NEAT1_SA is not a probe control. SA is sodium arsenite: the SA negative libraries carry HMOX1 up 84-fold, MT2A 28-fold, HSPA1A 15-fold and ATF3 and DDIT3 15-fold, and the lab's own comparison sheet labels the two arms \"normal\" and \"SA\". It is a stress arm, and the JXJ 572 artefact is in it too (H3-3A +2.85, DHRS4-AS1 +2.54, TMEM9B-AS1 +2.48). Second, there is no scrambled or antisense probe anywhere in this project. Every oligo in every sheet is antisense to its target and every negative is a no-probe control. That gap is still open.")]));
+P(b(0, [run("The MALAT1 and SON libraries are HFF, not HeLa. ", { bold: true }), run("I checked rather than assuming: chrY runs 617-946 CPM and COL1A2 1,677-2,801 CPM in all ten MALAT1 libraries, against 8 CPM and 0 in the HeLa NEAT1 libraries. The lab flagged the same thing on 3 Nov. So the MALAT1 arm is not a matched control for the HeLa experiments. It is still a control on the method, which is what I use it for below.")]));
+P(b(1, "Also corrected: the NGS3 MALAT1 columns have a documented neg_Rep2 / 40probes_Rep1 swap, visible in the data because the \"negative\" carries 349,000 CPM of MALAT1. Everything below uses the corrected assignment."));
+
+// ============================ 25. the method control ============================
+P(p([run("The MALAT1 anchor shows what a real co-resident looks like", { bold: true })]));
+P(b(0, "The single most useful thing in the folder is that the same chemistry, the same handle, the same pipeline was run against MALAT1, which lives in nuclear speckles. If the method can recover speckle residents with a speckle anchor, then an empty list with NEAT1 is a statement about paraspeckles and not just about sensitivity."));
+P(b(0, [run("It can. ", { bold: true }), run("Across three independent MALAT1 pulldowns, the spliceosomal snRNAs come down and nothing comparable happens with NEAT1.")]));
+P(new Paragraph({ spacing: { before: 60, after: 120 } }));
+P(tbl([
+  [{ t: "pulldown", b: true }, { t: "anchor log2", b: true }, { t: "spliceosomal snRNA median", b: true }, { t: "mRNA median", b: true }, { t: "p", b: true }],
+  [{ t: "NGS2 MALAT1 (HFF)" }, { t: "+3.81" }, { t: "+1.34" }, { t: "+0.01" }, { t: "5e-6" }],
+  [{ t: "NGS3 MALAT1 40probes (HFF)" }, { t: "+3.54" }, { t: "+1.00" }, { t: "-0.01" }, { t: "7e-6" }],
+  [{ t: "NGS3 MALAT1 40block (HFF)" }, { t: "+3.61" }, { t: "+0.96" }, { t: "-0.02" }, { t: "1e-5" }],
+  [{ t: "NGS4 NEAT1, 10 libraries (HeLa)" }, { t: "+3.6" }, { t: "+0.06" }, { t: "0.00" }, { t: "0.50" }],
+  [{ t: "NGS6 NEAT1, 10 libraries (HeLa)" }, { t: "+4.6" }, { t: "+0.04" }, { t: "0.00" }, { t: "0.76" }],
+], [3000, 1500, 2400, 1300, 1000]));
+P(new Paragraph({ spacing: { after: 100 } }));
+P(b(0, "Thirty genes clear 2-fold in all three MALAT1 pulldowns. The list is coherent: MALAT1 itself, then U1 (RNU1-35P, RNU1-14P, RNVU1-28, RNVU1-31), U5 (RNU5F-1, RNU5B-1) and three 7SK pseudogenes. U1, U5 and 7SK are three unrelated families, so no single probe can be cross-hybridising to all of them, and in fact no MALAT1 probe shares even an exact 12-mer with U1, U5 or 7SK in either orientation. These are speckle and snRNP components coming down with a speckle RNA."));
+P(b(0, [run("The NEAT1 anchor gives one gene. ", { bold: true }), run("Ten positive libraries, two batches, two probe designs, and the only thing above 2-fold in all of them is NEAT1. The honest caveat is that the MALAT1 comparison is cross-cell-line, so the contrast in effect size is not exact. The contrast in kind is harder to explain away: a reproducible, biologically coherent class of RNAs on one side, and an empty list on the other.")]));
+
+// ============================ 26. the halo is the method ============================
+P(p([run("The cis halo belongs to the assay, not to the paraspeckle", { bold: true })]));
+P(b(0, "The intronic enrichment of genes near the NEAT1 locus was the last thing I thought might be real biology, and NGS6 had already failed to reproduce it. The MALAT1 anchor settles what it is. MALAT1's gene sits 52 kb from NEAT1's, so the same window of chromosome 11 is \"near\" for both anchors."));
+P(new Paragraph({ spacing: { before: 60, after: 120 } }));
+P(tbl([
+  [{ t: "anchor (corrected, intron / exon)", b: true }, { t: "0.5 Mb", b: true }, { t: "1 Mb", b: true }, { t: "2 Mb", b: true }, { t: "5 Mb", b: true }],
+  [{ t: "NEAT1, NGS4, HeLa" }, { t: "+0.50 / +0.18" }, { t: "+0.38 / +0.10" }, { t: "+0.27 / +0.08" }, { t: "+0.09 / +0.03" }],
+  [{ t: "MALAT1, NGS2, HFF" }, { t: "+0.34 / +0.13" }, { t: "+0.34 / +0.09" }, { t: "+0.17 / +0.07" }, { t: "+0.13 / +0.03" }],
+  [{ t: "MALAT1, NGS3 40block, HFF" }, { t: "+0.60 / +0.18" }, { t: "+0.56 / +0.11" }, { t: "+0.41 / +0.08" }, { t: "+0.20 / -0.00" }],
+], [3400, 1600, 1600, 1600, 1600]));
+P(new Paragraph({ spacing: { after: 100 } }));
+P(b(0, "Same size, same decay, same three-to-one intron bias, in two different cell lines with two different anchor RNAs and two different probe sets. A speckle RNA in fibroblasts produces the halo as strongly as a paraspeckle RNA in HeLa. Whatever it is, it is not paraspeckle co-residency. The straightforward reading is that a tethered reverse transcriptase sitting at a locus labels nascent transcripts from the chromatin around it, and that is a property of the method."));
+P(b(1, "What the data cannot do is separate \"proximity to the anchor\" from \"this stretch of chromosome 11 is simply prone to it\", because both anchors sit in the same place. An anchor on another chromosome would settle it in one experiment. SON would have done it, but SON is an antibody pulldown in HFF, and the lab has already marked that comparison invalid across cell lines."));
+P(b(0, "The two anchors also do not capture each other. NEAT1 is -0.11, -0.37 and -0.39 in the three MALAT1 pulldowns, and MALAT1 is -0.18 in the NEAT1 pulldown. The two most abundant nuclear lncRNAs in the cell, with their genes 52 kb apart and both in nuclear bodies, show no co-capture at all. That is a clean upper bound on how much the assay carries over between neighbouring transcription sites at the level of mature RNA."));
+
+// ============================ 26b. the odd/even control ============================
+P(p([run("The cleanest control was inside the data all along: odd against even", { bold: true })]));
+P(b(0, "The 40 probes were split into two halves tiling the same NEAT1 molecule, in the same cells, in the same run, sequenced together. Nothing differs between them except which oligos are in the tube. That makes it the one control in this project with no cell-line, batch or normalisation confound at all."));
+P(new Paragraph({ spacing: { before: 60, after: 120 } }));
+P(tbl([
+  [{ t: "batch", b: true }, { t: "ODD half, genes called", b: true }, { t: "EVEN half, genes called", b: true }],
+  [{ t: "NGS2" }, { t: "4" }, { t: "495" }],
+  [{ t: "NGS4" }, { t: "4" }, { t: "243" }],
+], [2200, 3200, 3200]));
+P(new Paragraph({ spacing: { after: 100 } }));
+P(b(0, "A sixty to one hundred and twenty fold difference in how many genes a probe set calls, for two halves of one design against one RNA. If the assay were reporting what sits near NEAT1, the two halves would agree. They do not, and the reason is on the probe sheet: JXJ 572 is in Region 8, which is even. It is the only oligo of 119 flagged as suspect, it carries 155 of the 156 off-target sites at one mismatch or better and all 283 antisense sites, and the genic territory its sites cover is 51.5 Mb against 0.62 Mb for the whole odd half."));
+P(b(1, "Odd and even are not different as classes. Their GC, melting temperature and off-target counts are indistinguishable once JXJ 572 is excluded (p = 1 for off-target, 0.83 for GC). It is one oligo, not a parity property."));
+P(b(0, "In NGS4 the only genes called by both halves are NEAT1 and CMTM6. Across NGS3, NGS4 and NGS6 together, the only gene called in all three is NEAT1."));
+
+// ============================ 26c. what does not fit ============================
+P(p([run("Three things that do not fit, and I am not going to paper over them", { bold: true })]));
+P(b(0, [run("Masking the probe sites removes about half the even calls, not all of them. ", { bold: true }), run("Discounting reads within 300 nt of any probe match site, in both arms, takes 40even from 243 calls to 143, and at 500 nt to 117. P3H4 goes 2.58 to 0.83 and MTRFR 2.44 to 1.12, which is the expected collapse. But 117 genes survive. The honest reading is that masking is a blunt instrument here: at two mismatches JXJ 572 has 171,143 genome-wide sites, 61% of non-enriched genes carry one, and masking costs real power, dropping NEAT1's own value from 3.72 to 2.66. So this neither clears nor convicts the remaining genes.")]));
+P(b(0, [run("CMTM6 has no artefactual explanation. ", { bold: true }), run("It is the only non-NEAT1 gene called by both probe halves. It has no probe site within three mismatches, masking does not move it at all, and it is called against its own negative in NGS4 odd, NGS4 even and all five NGS6 sets. My own cross-batch test found it independently: it is one of only four genes above 1.4-fold in every set of both batches. Against it: it is 0 out of 16 against the pooled negative, and at about 2-fold it would need 30 to 45% of its molecules in paraspeckles, which is not credible for a CMTM6 messenger RNA. It is the cleanest residual in the dataset and nothing here tests it directly. PSRC1 is the mirror case, odd-only at +3.45 with no probe site, and also unexplained.")]));
+P(b(0, [run("The probe-homology argument does not close on its own. ", { bold: true }), run("Against length-matched background genes the enriched set is strongly shifted toward probe homology (p = 2e-10), but against 100 randomly drawn non-enriched genes the same test gives p = 0.15, and three background genes carry perfect 20 of 20 probe sites with no enrichment at all. Only 5 of the 62 consistent genes have a perfect site. So direct pairing accounts for a handful of named genes cleanly, and the rest rests on the mismatch dose curve and on the fact that the whole set disappears when the probe is removed. Those two are strong, but they are indirect.")]));
+P(b(0, [run("And one list should be retired. ", { bold: true }), run("The August 2025 \"paraspeckle gene\" lists, the most citable-looking output of the project, come from NGS1, which is the batch the lab's own pooled analysis excludes for having the most deviant negative. NEAT1 ranks 21st by fold and 33rd by p-value in them; the top entries are TMSB4X, GAPDH, SRSF3 and COX4I1, and 91% of NGS1's hits are not called against NGS1's own negative. The nuclear-encoded mitochondrial skew in that list, 11.3% against 4.9% of background, is interesting but is not separable from abundance on that batch.")]));
+
+// ============================ 27. the A-to-I question ============================
+P(p([run("Alu editing does not survive the Alu confound", { bold: true })]));
+P(b(0, "The obvious biological hypothesis for paraspeckles is the published one: inverted-repeat Alus, A-to-I hyperedited, retained by NONO. The folder has HeLa editing data for exactly this test, and the trap is that JXJ 572 targets an Alu consensus, so Alu content and probe cross-hybridisation are the same variable in this dataset."));
+P(b(0, "Joining the HeLa Slic-seq sites to the enrichment table, editing correlates with enrichment at rho = 0.180, but Alu density correlates at rho = 0.275, and editing and Alu density correlate with each other at rho = 0.41 because 93% of the sites sit in Alus. Editing is the weaker, nested variable. Mean editing sites in the enriched set against background is 3.28 versus 2.83, which is not significant (p = 0.85). The 1,777-gene high-confidence HeLa editing set overlaps the enriched list at 7.1% against 8.8% of background, so if anything it is depleted."));
+P(b(1, "The lab's own Alu analysis reached \"paraspeckle genes have fewer Alus\", but that is a gene-length artefact: the enriched genes are half as long (median 32 kb against 47 kb), and per kb they have more Alu, not less. Either way it points at the probe, not at NONO."));
+P(b(0, "Abundance does not predict enrichment either, in any compartment: the lab's own correlations against HeLa GRO-seq, nuclear RNA and polyA RNA are r = -0.05, 0.00 and -0.04."));
+
+// ============================ 28. the final model ============================
+P(p([run("The final model", { bold: true })]));
+P(b(0, [run("Everything in the log2FoldChange column is one of four things, and only the first is the intended measurement.", { bold: true })]));
+P(b(1, [run("1. The anchor itself. ", { bold: true }), run("NEAT1 at +3.4 to +4.9, MALAT1 at +3.5 to +3.8. This always works.")]));
+P(b(1, [run("2. Probe cross-hybridisation. ", { bold: true }), run("One oligo, JXJ 572, overlapping an AluSz6 in Region 8 of NEAT1, explains the whole apparent batch structure. It carries 5.9 to 11.9% of the out-of-sample variance in the three NGS4 sets that contain it, 0.9 to 2.7% in the two that do not, and 0.3 to 0.5% in NGS6, which was built without it. Removable by design, and already removed.")]));
+P(b(1, [run("3. A locus-proximity halo on nascent RNA. ", { bold: true }), run("Intron-biased, +0.3 to +0.6 log2 within 0.5 Mb, decaying over 1 to 2 Mb, reproduced by a speckle anchor in a different cell line. A property of the method.")]));
+P(b(1, [run("4. Genuine co-residents, when the body concentrates them enough. ", { bold: true }), run("For MALAT1 and speckles these are the spliceosomal snRNAs. For NEAT1 and paraspeckles there is no such class in this data.")]));
+P(b(0, [run("So the answer to the question of what about a gene determines its value: in the old data, its GC content and length, which are technical, and whether it contains an Alu matching JXJ 572. In the clean data, nothing. Gene properties explain 1.5 to 2.0% of the NGS6 column out of sample, against 10 to 24% in NGS4, and essentially all of that drop is the removal of one probe.", { bold: true })]));
+P(b(0, [run("What is still open. ", { bold: true }), run("Half the even-set calls survive probe masking, and CMTM6 and PSRC1 have no artefactual explanation in any of this. I do not think they are paraspeckle residents, because the concentration that would require is not credible and because CMTM6 vanishes against the pooled negative. But \"I cannot explain them\" is where the evidence actually stands, and they are the obvious targets for the one imaging experiment worth doing.")]));
+P(b(0, [run("What that means biologically, stated carefully. ", { bold: true }), run("Under these conditions, in HeLa, no messenger RNA is concentrated in paraspeckles to the degree that spliceosomal snRNAs are concentrated in speckles. The lab's own threshold calculation gives the scale: reaching 2-fold needs roughly 30 to 45% of an RNA's molecules inside paraspeckles, and paraspeckles occupy well under 1% of the nucleus. An RNA concentrated 3 to 4-fold, which is what P3H4 and MTRFR look like by FISH, is invisible here. The negative result is real at that threshold and says nothing below it.")]));
+
+// ============================ 29. what I would do next ============================
+P(p([run("What I would do next, in order", { bold: true })]));
+P(b(0, [run("Run MALAT1 in HeLa, in the same batch as NEAT1. ", { bold: true }), run("This is the experiment that converts the whole argument from suggestive to decisive, and it is one extra set of probes that already exist. If the snRNAs come down with MALAT1 in the same cells where nothing comes down with NEAT1, the negative result is established. It also fixes the cross-cell-line problem in every comparison in these notes.")]));
+P(b(0, [run("Put an anchor on another chromosome. ", { bold: true }), run("Any well-expressed nuclear RNA away from chromosome 11 will do. If the halo follows it to its own locus, component 3 is proven to be chromatin proximity and can be subtracted analytically from every future experiment.")]));
+P(b(0, [run("Add the scrambled-probe control. ", { bold: true }), run("Same handle, same chemistry, no target. It is the only clean way to subtract annealing, it still does not exist anywhere in the project, and it would have caught JXJ 572 on day one.")]));
+P(b(0, [run("Get the NGS6 BAMs. ", { bold: true }), run("Only the gene-span table was shared. The intron-level counts are what would confirm the halo in the clean batch, and the reads already exist.")]));
+P(b(0, [run("Keep the twelve-negative design, and screen every new probe against RepeatMasker before ordering. ", { bold: true }), run("The first made the GC question answerable after a year. The second is a five-minute check that would have saved this project several months.")]));
+P(b(0, "If the goal stays \"find the paraspeckle transcriptome\", the honest read is that this assay as built cannot reach it, and the way forward is to cut background rather than to analyse harder. The 30 to 45% threshold is a design number, and it is the only number that matters."));
+P(img("fig8_anchors.png", 620, 465));
+P(cap([run("Fig 8. ", { bold: true }), run("The MALAT1 anchor as a control on the method. (a) Median enrichment by RNA class for each anchor, relative to that library's own median. (b) The locus-proximity halo, corrected for GC and length, intron solid and exon dashed, for both anchors. (c) Spliceosomal snRNAs gene by gene. (d) Out-of-sample variance of the log2 enrichment explained by GC and length against the JXJ 572 Alu site, per probe set, before and after the probe was removed.")]));
+
 const doc = new Document({
   numbering,
   styles: { default: { document: { run: { font: FONT, size: SZ } } } },

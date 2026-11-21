@@ -169,3 +169,77 @@ Three things are now settled rather than argued. The GC and length axis is techn
 Two are open. Whether the cis intronic halo is real, which needs the NGS6 BAMs or a working batch with intron-level counts. And whether CMTM6 and RUVBL1 are genuine, which needs imaging.
 
 One is now quantitative, and it is the important one. The sensitivity gap is 30 to 45% of molecules, and that is a design problem rather than an analysis problem. It explains every negative result in these notes. Cutting background buys more than any amount of reanalysis.
+
+---
+
+Final pass, 21 November: all six batches, and the controls that were already in the folder
+
+I had been working from two batches. The folder has six, and three different anchors. That changes what can be concluded, because two of the anchors work as controls on the method itself.
+
+What is actually in there
+
+NGS1 is the RT-time and gel-cut test in HeLa, eight positives and sixteen negatives. NGS2 has a MALAT1 probe pulldown and a SON antibody pulldown. The April NGS3 has three arms: NEAT1 in untreated cells, NEAT1 in stressed cells, and MALAT1. NGS4 is the main NEAT1 dataset. NGS6 is the clean redesign.
+
+Two things I had wrong. NEAT1_SA is not a probe control, it is sodium arsenite: the SA negatives carry HMOX1 up 84-fold, MT2A 28-fold and ATF3 15-fold, and the lab's own comparison sheet labels the two arms "normal" and "SA". And there is no scrambled or antisense probe anywhere in this project. Every oligo is antisense to its target and every negative is a no-probe control. That gap is still open.
+
+One thing I had to check rather than assume: the MALAT1 and SON libraries are HFF fibroblasts, not HeLa. Y-chromosome genes run 617 to 946 counts per million in them and COL1A2 runs 1,677 to 2,801, against 8 and zero in the HeLa NEAT1 libraries. The lab found the same thing on 3 November. So the MALAT1 arm is not a matched control for the HeLa experiments. It is still a control on the method, which is how I use it.
+
+The cleanest control was inside the data all along
+
+The forty probes were split into two halves tiling the same NEAT1 molecule, in the same cells, in the same run. Nothing differs except which oligos are in the tube, so there is no cell line, batch or normalisation confound. In NGS2 the odd half calls four genes and the even half calls 495. In NGS4 it is four against 243.
+
+Two halves of one design against one RNA, and a sixty to one hundred and twenty fold difference in how many genes they find. If the assay were reporting what sits near NEAT1, the halves would agree. The reason they do not is on the probe sheet. JXJ 572 is in region 8, which is even. It is the only oligo of 119 flagged as suspect, it carries 155 of the 156 off-target sites at one mismatch or better, and the genomic territory its sites cover is 51.5 megabases against 0.62 for the entire odd half. Odd and even are not different as classes once that one oligo is set aside. In NGS4 the only genes called by both halves are NEAT1 and CMTM6. Across NGS3, NGS4 and NGS6, the only gene called in all three is NEAT1.
+
+What a real co-resident looks like
+
+The MALAT1 pulldown is the most useful thing in the folder, because MALAT1 lives in nuclear speckles. If the same chemistry can recover speckle residents with a speckle anchor, then an empty list with NEAT1 says something about paraspeckles and not just about sensitivity.
+
+It can. Across three independent MALAT1 pulldowns the spliceosomal snRNAs come down: median enrichment +1.34, +1.00 and +0.96 log2 against messenger RNA at zero, with p around one in a hundred thousand each time. Thirty genes clear two-fold in all three, and the list is coherent: MALAT1 itself, then U1, U5 and three 7SK pseudogenes. Those are three unrelated families, so no single probe can be cross-hybridising to all of them, and in fact no MALAT1 probe shares even an exact twelve-letter stretch with U1, U5 or 7SK in either orientation. The lab's own independent analysis of the same libraries found exactly five enriched genes: MALAT1, two U1 genes, a U5 gene and a 7SK pseudogene. The signal also survives length matching, which matters because snRNAs are short and short genes misbehave in these libraries.
+
+The NEAT1 anchor gives one gene. Ten positive libraries, two batches, two probe designs, and the only thing above two-fold in all of them is NEAT1. The caveat is that the MALAT1 comparison is across cell lines, so the difference in size is not exact. The difference in kind is harder to explain away: a reproducible, biologically coherent class of RNAs on one side and an empty list on the other.
+
+The cis halo belongs to the assay
+
+This was the last thing I thought might be real biology. MALAT1's gene sits 52 kilobases from NEAT1's, so the same stretch of chromosome 11 is "near" for both anchors. The halo is there for both: intronic enrichment of +0.50 within half a megabase for the NEAT1 anchor in HeLa, +0.34 and +0.60 for the two MALAT1 anchors in fibroblasts, each decaying over one to two megabases with the same three-to-one intron bias.
+
+A speckle RNA in fibroblasts produces it as strongly as a paraspeckle RNA in HeLa. Whatever it is, it is not paraspeckle co-residency. The straightforward reading is that a tethered reverse transcriptase sitting at a locus labels nascent transcripts from the chromatin around it. What the data cannot do is separate "proximity to the anchor" from "this part of chromosome 11 is just prone to it", because both anchors sit in the same place. An anchor on another chromosome settles that in one experiment.
+
+The two anchors also do not capture each other. NEAT1 is at -0.11, -0.37 and -0.39 in the three MALAT1 pulldowns, and MALAT1 is at -0.18 in the NEAT1 pulldown. The two most abundant nuclear lncRNAs in the cell, genes 52 kilobases apart, both in nuclear bodies, and no co-capture at all.
+
+The Alu editing idea does not survive
+
+The obvious biological hypothesis is the published one: inverted-repeat Alus, A-to-I edited, retained by NONO. The trap is that JXJ 572 targets an Alu consensus, so Alu content and probe cross-hybridisation are the same variable here. Editing correlates with enrichment at 0.18, Alu density at 0.275, and the two correlate with each other at 0.41 because 93 percent of the editing sites sit in Alus. Editing is the weaker, nested variable, and the high-confidence HeLa editing gene set is if anything slightly depleted in the enriched list. The lab's own conclusion that paraspeckle genes have fewer Alus is a gene-length artefact, since those genes are half as long and per kilobase carry more Alu. Either way it points at the probe. Abundance predicts nothing either: the correlations against nascent, nuclear and polyA RNA are -0.05, 0.00 and -0.04.
+
+The final model
+
+Everything in that log2FoldChange column is one of four things, and only the first is the intended measurement.
+
+The anchor itself, at three to five log2. Always works.
+
+Probe cross-hybridisation, which is essentially one oligo. It carries 5.9 to 11.9 percent of the out-of-sample variance in the three NGS4 sets that contain JXJ 572, 0.9 to 2.7 percent in the two that do not, and 0.3 to 0.5 percent in NGS6, which was built without it.
+
+A locus-proximity halo on nascent RNA, intron-biased, a few tenths of a log2 within half a megabase, reproduced by a speckle anchor in a different cell line. A property of the method.
+
+Genuine co-residents, when the body concentrates them enough. For speckles those are the spliceosomal snRNAs. For paraspeckles there is no such class in this data.
+
+So, to the original question of what about a gene determines its value: in the old data, its GC content and length, which are technical, and whether it contains an Alu matching one probe. In the clean data, nothing. Gene properties explain 1.5 to 2.0 percent of the NGS6 column out of sample against 10 to 24 percent in NGS4, and almost all of that drop is the removal of one oligo.
+
+What I will not paper over
+
+Masking the probe sites removes about half the even-set calls, not all of them. Masking is blunt here, since JXJ 572 has 171,143 genome-wide sites at two mismatches and 61 percent of non-enriched genes carry one, and masking costs real power. CMTM6 has no artefactual explanation: called by both probe halves, no probe site, unmoved by masking, and one of only four genes above 1.4-fold in every set of both batches in my own cross-batch test. PSRC1 is the mirror case. I do not think either is a paraspeckle resident, because the concentration that would require is not credible, but "I cannot explain them" is where the evidence stands.
+
+And the August 2025 paraspeckle gene list should be retired. It comes from NGS1, the batch the lab's own analysis excludes for having the most deviant negative. NEAT1 ranks 21st in it by fold; the top entries are TMSB4X, GAPDH and SRSF3.
+
+What is worth doing next, in order
+
+Run MALAT1 in HeLa, in the same batch as NEAT1. This converts the whole argument from suggestive to decisive and it is one set of probes that already exist. If the snRNAs come down with MALAT1 in the same cells where nothing comes down with NEAT1, the negative result is established, and the cross-cell-line problem in every comparison above disappears.
+
+Put an anchor on another chromosome. If the halo follows it, that component is proven to be chromatin proximity and can be subtracted from every future experiment.
+
+Add the scrambled-probe control. Same handle, no target. It still does not exist anywhere in this project and it would have caught JXJ 572 on day one.
+
+Get the NGS6 BAM files, so the intron-level test can be run on the clean batch.
+
+Keep the twelve-negative design, and run every new probe against RepeatMasker before ordering. The first made the GC question answerable after a year. The second is a five-minute check that would have saved this project several months.
+
+If the goal stays "find the paraspeckle transcriptome", the honest read is that this assay as built cannot reach it. Reaching two-fold needs roughly 30 to 45 percent of an RNA's molecules inside paraspeckles, and paraspeckles are well under one percent of the nucleus. That is a design number, and it is the only number that matters.
